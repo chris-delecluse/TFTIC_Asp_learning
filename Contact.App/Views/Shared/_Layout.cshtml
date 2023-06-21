@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Contact.App</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/color.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true">
+</head>
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+<header class="position-sticky top-0 px-10 bg-dark text-white my-auto border-bottom-3 border-warning" style="z-index: 20">
+    <nav>
+        <ul class="list-unstyled navbar my-0 align-items-center">
+            <li class="nav-item">
+                <a class="nav-link text-white" href="~/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="~/contact/index">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sign
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="~/auth/login">Sign-In</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="~/auth/register">Sign-Up</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="d-flex flex-column flex-grow-1 px-10 bg-darkGray pt-4 pb-5">
+    @RenderBody()
+</main>
+<footer class="position-fixed bottom-0 px-10 bg-dark text-white w-100 border-top-3 border-warning">
+    <p class="my-auto text-center py-1">@@DiwaCode</p>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

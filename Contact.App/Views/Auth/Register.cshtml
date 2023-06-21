@@ -1,0 +1,53 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Contact.App.Models.Auth.RegisterForm
+@{
+    ViewBag.Title = "Register";
+}
+
+<section class="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+    <form asp-action="Register" asp-controller="Auth" method="post" class="d-flex flex-column gap-3 p-5 bg-dark border border-3 border-warning mb-xl-5 position-relative rounded-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+        
+        <div class="position-absolute top--25 start-50 px-4 py-2 translate-middle-x border border-3 border-warning rounded-2 text-warning bg-dark text-uppercase">
+            <p class="align-middle m-auto">register</p>
+        </div>
+
+        <div class="d-flex gap-3 flex-wrap flex-lg-nowrap">
+            <div class="form-floating flex-fill">
+                <input type="text" asp-for="FirstName" placeholder="Enter your first name" class="form-control bg-lightGray">
+                <label asp-for="FirstName"></label>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating flex-fill">
+                <input type="text" asp-for="LastName" placeholder="Enter your last name" class="form-control bg-lightGray">
+                <label asp-for="LastName"></label>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-floating">
+            <input type="email" asp-for="Email" placeholder="Enter your email" class="form-control bg-lightGray">
+            <label asp-for="Email"></label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-3 flex-wrap flex-lg-nowrap">
+            <div class="form-floating flex-fill">
+                <input type="password" asp-for="Password" placeholder="Enter your password" class="form-control bg-lightGray">
+                <label asp-for="Password"></label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating flex-fill">
+                <input type="password" asp-for="ConfirmPassword" placeholder="Confirm your password" class="form-control bg-lightGray">
+                <label asp-for="ConfirmPassword"></label>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-outline-light" type="submit" value="submit"/>
+        </div>
+    </form>
+</section>

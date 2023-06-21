@@ -1,0 +1,31 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Contact.App.Models.Auth.LoginForm
+@{
+    ViewBag.Title = "Login";
+}
+
+<section class="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+    <form asp-action="Login" asp-controller="Auth" method="post" class="d-flex flex-column gap-3 p-5 bg-dark border border-3 border-warning mb-xl-5 position-relative rounded-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+        
+        <div class="position-absolute top--25 start-50 px-4 py-2 translate-middle-x border border-3 border-warning rounded-2 text-warning bg-dark text-uppercase">
+            <p class="align-middle m-auto">login</p>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control bg-lightGray" placeholder="Enter your email" asp-for="Email">
+            <label asp-for="Email"></label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating">
+            <input type="password" class="form-control bg-lightGray" placeholder="Enter your email" asp-for="Password">
+            <label asp-for="Password"></label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-outline-light" type="submit" value="submit"/>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,88 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Contact.BLL.Entities
+@model Contact.App.Models.Contact.ContactViewModel;
+@{
+    ViewBag.Title = "Contact";
+}
+<section class="d-flex flex-column align-items-center justify-content-around flex-grow-1">
+    <form asp-action="Index" asp-controller="Contact" method="post" class="d-flex flex-column gap-3 p-5 w-100 bg-dark border border-3 border-warning mb-5 position-relative rounded-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+        
+        <div class="position-absolute top--25 start-50 px-4 py-2 translate-middle-x border border-3 border-warning rounded-3 text-warning bg-dark text-uppercase">
+            <p class="align-middle m-auto">contact</p>
+        </div>
+
+        <div class="d-flex gap-3 flex-wrap flex-lg-nowrap">
+            <div class="form-floating flex-fill">
+                <input type="text" asp-for="FirstName" placeholder="Enter your first name" class="form-control bg-lightGray">
+                <label asp-for="FirstName"></label>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating flex-fill">
+                <input type="text" asp-for="LastName" placeholder="Enter your last name" class="form-control bg-lightGray">
+                <label asp-for="LastName"></label>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-floating">
+            <input type="email" asp-for="Email" placeholder="Enter your email" class="form-control bg-lightGray">
+            <label asp-for="Email"></label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-3 flex-wrap flex-lg-nowrap">
+            <div class="form-floating flex-fill flex-lg-grow-0">
+                <input type="date" asp-for="BirthDate" placeholder="Enter your birth date" class="form-control bg-lightGray flex-fill">
+                <label asp-for="BirthDate"></label>
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating flex-fill">
+                <input type="number" asp-for="PhoneNumber" placeholder="Enter your phone number" class="form-control bg-lightGray">
+                <label asp-for="PhoneNumber"></label>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-outline-light" type="submit" value="submit"/>
+        </div>
+    </form>
+
+    <table class="table border border-3 border-warning bg-lightGray rounded-3">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Email</th>
+            <th scope="col">BirthDate</th>
+            <th scope="col">PhoneNumber</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.Contacts is not null)
+        {
+            foreach (ContactEntity item in Model.Contacts)
+            {
+                <tr class="align-middle text-center">
+                    <th scope="row">@item.Id</th>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Email</td>
+                    <td>@item.BirthDate.ToLongDateString()</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>
+                        <form asp-action="DeleteOne" asp-controller="Contact" asp-route-id="@item.Id">
+                            <input type="submit" id="deleteForm" class="btn btn-danger" value="Delete"/>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+</section>

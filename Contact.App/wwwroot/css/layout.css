@@ -1,0 +1,30 @@
+.px-10 {
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
+.mb-xl-10 {
+    margin-bottom: 5rem;
+}
+
+.border-bottom-3 {
+    border-bottom: 3px solid;
+}
+
+.border-top-3 {
+    border-top: 3px solid;
+}
+
+.top--25 {
+    top: -23px;
+}
+
+.rounded-20 {
+    border-radius: 250px;
+}
+
+.validation-summary-errors ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
