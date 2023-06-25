@@ -1,8 +1,9 @@
-using Contact.App.Mappers;
 using Contact.App.Models.Auth;
-using Contact.BLL.Repositories;
+using Contact.Cqs.Shared;
+using Contact.Domain.Commands;
+using Contact.Domain.Queries;
+using Contact.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 
 namespace Contact.App.Controllers;
 
@@ -18,8 +19,8 @@ public class AuthController : Controller
     public IActionResult Login(LoginForm form)
     {
         if (!ModelState.IsValid) return View(form);
-        
-        if ( _userService.Login(form.Email, form.Password) is null)
+
+        if (_userService.Execute(new LoginQuery(form.Email, form.Password)) is null)
         {
             ModelState.AddModelError("", "Invalid Credentials");
             return View(form);
@@ -35,15 +36,15 @@ public class AuthController : Controller
     {
         if (!ModelState.IsValid) return View(form);
 
-        try
-        {
-            _userService.Register(form.ToBll());
-            return RedirectToAction("Login", "Auth");
-        }
-        catch (SqlException e)
+        Result result =
+            _userService.Execute(new RegisterCommand(form.FirstName, form.LastName, form.Email, form.Password));
+
+        if (result.IsFailure)
         {
             ModelState.AddModelError("", "Email address already used");
             return View(form);
         }
+
+        return RedirectToAction("Login", "Auth");
     }
 }

@@ -1,5 +1,4 @@
 using System.Data;
-using System.Data.Common;
 using Contact.DAL.Entities;
 using Contact.DAL.Mappers;
 using Contact.DAL.Repositories;

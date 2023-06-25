@@ -1,24 +1,15 @@
 using System.Data;
-using System.Data.Common;
+using Contact.Domain.Repositories;
+using Contact.Domain.Services;
 using Microsoft.Data.SqlClient;
-using IDalAuthRepository = Contact.DAL.Repositories.IAuthRepository;
-using DalAuthService = Contact.DAL.Services.AuthService;
-using IBllAuthRepository = Contact.BLL.Repositories.IAuthRepository;
-using BllAuthService = Contact.BLL.Services.AuthService;
-using IDalContactRepository = Contact.DAL.Repositories.IContactRepository;
-using DalContactService = Contact.DAL.Services.ContactService;
-using IBllContactRepository = Contact.BLL.Repositories.IContactRepository;
-using BllContactService = Contact.BLL.Services.ContactService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IDbConnection>(_ => new SqlConnection(builder.Configuration.GetConnectionString("SqlServer")));
-builder.Services.AddScoped<IDalAuthRepository, DalAuthService>();
-builder.Services.AddScoped<IBllAuthRepository, BllAuthService>();
-builder.Services.AddScoped<IDalContactRepository, DalContactService>();
-builder.Services.AddScoped<IBllContactRepository, BllContactService>();
+builder.Services.AddScoped<IAuthRepository, AuthService>();
+builder.Services.AddScoped<IContactRepository, ContactService>();
 
 var app = builder.Build();
 

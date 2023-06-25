@@ -1,8 +1,9 @@
-using Contact.App.Mappers;
 using Contact.App.Models.Contact;
-using Contact.BLL.Repositories;
+using Contact.Cqs.Shared;
+using Contact.Domain.Commands.Contact;
+using Contact.Domain.Queries.Contact;
+using Contact.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 
 namespace Contact.App.Controllers;
 
@@ -12,30 +13,37 @@ public class ContactController : Controller
 
     public ContactController(IContactRepository contactRepository) => _contactRepository = contactRepository;
 
-    public IActionResult Index() => View(new ContactViewModel { Contacts = _contactRepository.Find() });
+    public IActionResult Index() =>
+        View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
 
     [HttpPost]
     public IActionResult Index(ContactViewModel model)
     {
-        if (!ModelState.IsValid) return View(new ContactViewModel { Contacts = _contactRepository.Find() });
-        
-        try
-        {
-            _contactRepository.Insert(model.ToBll());
-            return View(new ContactViewModel { Contacts = _contactRepository.Find() });
-        }
-        catch (SqlException e)
+        if (!ModelState.IsValid)
+            return View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
+
+
+        Result result = _contactRepository.Execute(new ContactCommand(model.FirstName,
+                model.LastName,
+                model.Email,
+                model.BirthDate,
+                model.PhoneNumber
+            )
+        );
+
+        if (result.IsFailure)
         {
             ModelState.AddModelError("", "Email address has to be unique (already used)");
-            Console.WriteLine(e.Message);
-            return View(new ContactViewModel { Contacts = _contactRepository.Find() });
+            return View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
         }
+
+        return View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
     }
 
     [HttpPost]
     public IActionResult DeleteOne(int id)
     {
-        _contactRepository.Remove(id);
+        _contactRepository.Execute(new RemoveContactCommand(id));
         return RedirectToAction("Index", "Contact");
     }
 }

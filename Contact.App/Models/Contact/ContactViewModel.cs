@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Contact.BLL.Entities;
+using Contact.Domain.Entities;
 
 namespace Contact.App.Models.Contact;
 
