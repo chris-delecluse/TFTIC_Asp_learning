@@ -1,3 +1,4 @@
+using Contact.App.Attributes;
 using Contact.App.Models.Contact;
 using Contact.Cqs.Shared;
 using Contact.Domain.Commands.Contact;
@@ -7,14 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Contact.App.Controllers;
 
+[CustomAuthorize]
 public class ContactController : Controller
 {
     private readonly IContactRepository _contactRepository;
 
-    public ContactController(IContactRepository contactRepository) => _contactRepository = contactRepository;
+    public ContactController(IContactRepository contactRepository)
+    {
+        _contactRepository = contactRepository;
+    }
 
-    public IActionResult Index() =>
-        View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
+    public IActionResult Index()
+    {
+        return View(new ContactViewModel { Contacts = _contactRepository.Execute(new GetAllContactQuery()) });
+    }
 
     [HttpPost]
     public IActionResult Index(ContactViewModel model)

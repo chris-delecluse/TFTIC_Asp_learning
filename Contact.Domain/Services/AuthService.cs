@@ -19,8 +19,10 @@ public class AuthService : IAuthRepository
     {
         try
         {
-            if (_dbConnection.State is not ConnectionState.Open) _dbConnection.Open();
+            if (_dbConnection.State is not ConnectionState.Open)
+                _dbConnection.Open();
             _dbConnection.ExecuteNonQuery("CSP_Register", true, command);
+            _dbConnection.Close();
             return Result.Success();
         }
         catch (Exception e) { return Result.Failure(e.Message); }
@@ -28,7 +30,8 @@ public class AuthService : IAuthRepository
 
     public UserEntity? Execute(LoginQuery query)
     {
-        if (_dbConnection.State is not ConnectionState.Open) _dbConnection.Open();
+        if (_dbConnection.State is not ConnectionState.Open)
+            _dbConnection.Open();
         UserEntity? user = _dbConnection.ExecuteReader("CSP_Login", record => record.ToPublicUser(), true, query)
             .FirstOrDefault();
         return user;

@@ -24,6 +24,7 @@ public class ContactService : IContactRepository
                 false,
                 new { command.FirstName, command.LastName, command.Email, command.BirthDate, command.PhoneNumber }
             );
+            _dbConnection.Close();
             return Result.Success();
         }
         catch (Exception e) { return Result.Failure(e.Message); }
@@ -52,6 +53,7 @@ public class ContactService : IContactRepository
         {
             if (_dbConnection.State is not ConnectionState.Open) _dbConnection.Open();
             _dbConnection.ExecuteNonQuery("delete from contact where id = @id", parameters: new { command.Id });
+            _dbConnection.Close();
             return Result.Success();
         }
         catch (Exception e) { return Result.Failure(e.Message); }

@@ -1,6 +1,9 @@
+using Contact.App.Attributes;
+using Contact.App.Infrastructures.Sessions;
 using Contact.App.Models.Auth;
 using Contact.Cqs.Shared;
 using Contact.Domain.Commands;
+using Contact.Domain.Entities;
 using Contact.Domain.Queries;
 using Contact.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +13,13 @@ namespace Contact.App.Controllers;
 public class AuthController : Controller
 {
     private readonly IAuthRepository _userService;
+    private readonly ISessionManager _sessionManager;
 
-    public AuthController(IAuthRepository userService) => _userService = userService;
+    public AuthController(IAuthRepository userService, ISessionManager sessionManager)
+    {
+        _userService = userService;
+        _sessionManager = sessionManager;
+    }
 
     public IActionResult Login() => View();
 
@@ -20,11 +28,20 @@ public class AuthController : Controller
     {
         if (!ModelState.IsValid) return View(form);
 
-        if (_userService.Execute(new LoginQuery(form.Email, form.Password)) is null)
+        UserEntity? user = _userService.Execute(new LoginQuery(form.Email, form.Password));
+        
+        if (user is null)
         {
             ModelState.AddModelError("", "Invalid Credentials");
             return View(form);
         }
+
+        _sessionManager.UserInfo = new UserInfo
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName
+        };
 
         return RedirectToAction("Index", "Home");
     }
@@ -46,5 +63,12 @@ public class AuthController : Controller
         }
 
         return RedirectToAction("Login", "Auth");
+    }
+
+    [CustomAuthorize]
+    public IActionResult Logout()
+    {
+        _sessionManager.Clear();
+        return RedirectToAction("index", "Home");
     }
 }

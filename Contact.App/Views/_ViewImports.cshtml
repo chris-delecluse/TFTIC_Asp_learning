@@ -1,3 +1,9 @@
 ﻿@using Contact.App
 @using Contact.App.Models
+@using Contact.App.Infrastructures.Sessions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Contact.Domain.Entities
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject ISessionManager sessionManager
